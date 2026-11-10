@@ -1,0 +1,15 @@
+{{- if .Values.mssql.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-db
+spec:
+  type: ClusterIP
+  ports:
+    - port: 1433
+      targetPort: 1433
+      protocol: TCP
+      name: mssql
+  selector:
+    app: mssql-db
+{{- end }}

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f2">
+  <meta name="description" content="A little hello goes a long way. Send a personalized greeting from any device.">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Hello, there — Hello</title>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Hello home">
+      <span class="brand-mark" aria-hidden="true">h.</span>
+      <span>hello<span class="brand-period">.</span></span>
+    </a>
+    <div class="topbar-right">
+      <span class="availability"><span class="availability-dot"></span> Here for a hello</span>
+      <button class="install-button" id="install-button" type="button" hidden>Install app</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> A small moment of joy</p>
+        <h1 id="hero-title">A little hello<br>goes a <span>long way.</span></h1>
+        <p class="hero-description">Make someone's day, or just brighten your own. Your friendly little greeting is only a tap away.</p>
+        <div class="device-note">
+          <span class="device-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2.5"></rect><path d="M10 17.5h4"></path></svg>
+          </span>
+          <span>Made for your phone, tablet, and laptop</span>
+        </div>
+      </div>
+
+      <section class="greeting-card" aria-labelledby="card-title">
+        <div class="card-top">
+          <div class="card-icon" aria-hidden="true">✳</div>
+          <span class="card-label">YOUR DAILY DOSE OF NICE</span>
+        </div>
+        <h2 id="card-title">Who should we say hello to?</h2>
+        <p class="card-description">Put a name in the little box. We'll take it from there.</p>
+        <form id="greeting-form">
+          <label for="name">Their name</label>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c.7-3.1 3.2-5 7-5s6.3 1.9 7 5"></path></svg>
+            <input id="name" name="name" type="text" maxlength="80" placeholder="e.g. Alex" autocomplete="given-name" required>
+          </div>
+          <button class="submit-button" type="submit">
+            <span>Send a little hello</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          </button>
+        </form>
+        <div class="response" id="response" aria-live="polite" hidden>
+          <span class="response-sparkle" aria-hidden="true">✦</span>
+          <div>
+            <p class="response-label">A MESSAGE FOR YOU</p>
+            <p class="response-message" id="response-message"></p>
+          </div>
+        </div>
+        <p class="card-footer"><span aria-hidden="true">♡</span> A little kindness, shared</p>
+      </section>
+    </section>
+
+    <section class="bottom-strip" aria-label="About Hello">
+      <div class="strip-item">
+        <span class="strip-number">01</span>
+        <div><h3>Just type a name</h3><p>No sign-up, no fuss. Just a friendly hello.</p></div>
+      </div>
+      <span class="strip-divider" aria-hidden="true"></span>
+      <div class="strip-item">
+        <span class="strip-number">02</span>
+        <div><h3>Make it yours</h3><p>Your name stays on this device for next time.</p></div>
+      </div>
+      <span class="strip-divider" aria-hidden="true"></span>
+      <div class="strip-item">
+        <span class="strip-number">03</span>
+        <div><h3>Take it anywhere</h3><p>Add Hello to your home screen and open it like an app.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><span>hello<span class="brand-period">.</span> A good day starts with a good word.</span><span>Made to feel at home on every screen.</span></footer>
+  <script src="/app.js" defer></script>
+</body>
+</html>

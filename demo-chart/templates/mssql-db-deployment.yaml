@@ -1,0 +1,63 @@
+{{- if .Values.mssql.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mssql-db
+spec:
+  serviceName: mssql-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssql-db
+  template:
+    metadata:
+      labels:
+        app: mssql-db
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+        - name: mssql
+          image: {{ .Values.mssql.image | quote }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: sql
+              containerPort: 1433
+              protocol: TCP
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: MSSQL_PID
+              value: "Developer"
+            - name: MSSQL_SA_PASSWORD
+              value: {{ .Values.database.password | quote }}
+          startupProbe:
+            tcpSocket:
+              port: sql
+            periodSeconds: 10
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: sql
+            periodSeconds: 10
+            failureThreshold: 6
+          livenessProbe:
+            tcpSocket:
+              port: sql
+            periodSeconds: 20
+            failureThreshold: 6
+          volumeMounts:
+            - name: mssql-data
+              mountPath: /var/opt/mssql
+  volumeClaimTemplates:
+    - metadata:
+        name: mssql-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        {{- with .Values.mssql.storage.storageClassName }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.mssql.storage.size | quote }}
+{{- end }}

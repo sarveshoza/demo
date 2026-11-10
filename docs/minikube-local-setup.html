@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Local Setup for Minikube Kubernetes (K8s) on macOS (Apple Silicon)</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        h1, h2 { color: #2c3e50; }
+        pre, code { background: #f4f4f4; padding: 0.5em; border-radius: 4px; }
+        ul { margin-bottom: 1em; }
+        .summary { background: #eafaf1; padding: 1em; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<h1>Formal Document: Local Setup for Minikube Kubernetes (K8s) on macOS (Apple Silicon)</h1>
+
+<h2>1. Prerequisites</h2>
+<ul>
+    <li><strong>Docker Desktop</strong><br>
+        Download and install Docker Desktop for Mac:<br>
+        <a href="https://docs.docker.com/desktop/setup/install/mac-install/" target="_blank">https://docs.docker.com/desktop/setup/install/mac-install/</a>
+    </li>
+</ul>
+
+<h2>2. Download and Install Minikube</h2>
+<ol>
+    <li>Download the Minikube binary for Apple Silicon (arm64):<br>
+        <pre><code>curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-darwin-arm64</code></pre>
+    </li>
+    <li>Install Minikube to <code>/usr/local/bin</code>:<br>
+        <pre><code>sudo install minikube-darwin-arm64 /usr/local/bin/minikube</code></pre>
+    </li>
+</ol>
+
+<h2>3. Start Minikube</h2>
+<p>Start the Minikube cluster using Docker as the driver:</p>
+<pre><code>minikube start</code></pre>
+<ul>
+    <li>Minikube will automatically select the Docker driver.</li>
+    <li>The Kubernetes control plane and related services will be started.</li>
+    <li><code>kubectl</code> will be configured to use the <code>minikube</code> cluster.</li>
+</ul>
+
+<h2>4. Verify Installations</h2>
+<ul>
+    <li>Check Docker version:<br>
+        <pre><code>docker --version</code></pre>
+    </li>
+    <li>Check Minikube status:<br>
+        <pre><code>minikube status</code></pre>
+    </li>
+    <li>Check <code>kubectl</code> version:<br>
+        <pre><code>kubectl version</code></pre>
+    </li>
+    <li>List Kubernetes nodes:<br>
+        <pre><code>kubectl get nodes</code></pre>
+    </li>
+    <li>List running Docker containers:<br>
+        <pre><code>docker ps</code></pre>
+    </li>
+    <li>List Kubernetes pods (should be empty initially):<br>
+        <pre><code>kubectl get pods</code></pre>
+    </li>
+</ul>
+
+<h2>5. Access Kubernetes Dashboard</h2>
+<p>Enable and launch the Kubernetes dashboard:</p>
+<pre><code>minikube dashboard</code></pre>
+<ul>
+    <li>The dashboard will open in your default browser.</li>
+    <li>For full dashboard features, enable the metrics-server addon:<br>
+        <pre><code>minikube addons enable metrics-server</code></pre>
+    </li>
+</ul>
+
+<h2>6. Notes</h2>
+<ul>
+    <li>Ensure all commands are executed in the terminal.</li>
+    <li>Use the correct binary for your architecture (arm64 for Apple Silicon).</li>
+    <li>If you encounter issues with missing drivers, ensure Docker Desktop is installed and running.</li>
+</ul>
+
+<div class="summary">
+    <strong>Summary:</strong><br>
+    This document outlines the step-by-step process to set up Minikube and Kubernetes locally on macOS (Apple Silicon) using Docker Desktop as the container driver. The setup includes verification steps and instructions to access the Kubernetes dashboard.
+</div>
+</body>
+</html>

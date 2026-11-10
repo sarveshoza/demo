@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-hello
+  labels:
+    app: spring-hello
+spec:
+  replicas: 3 # Number of desired replicas
+  selector:
+    matchLabels:
+      app: spring-hello
+  template:
+    metadata:
+      labels:
+        app: spring-hello
+    spec:
+      containers:
+        - name: spring-hello
+          image: sarvesh10/spring-hello:latest # Replace with your Docker image and tag
+          imagePullPolicy: IfNotPresent # Change to Always if you want to always pull the image
+          ports:
+            - containerPort: 8080 # Replace with your app's container port
+          env:
+            - name: ENV_VAR_NAME # Optional environment variables
+              value: "ENV_VAR_VALUE"
+          resources: # Optional resource limits and requests
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "256Mi"
+              cpu: "1"

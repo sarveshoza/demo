@@ -1,0 +1,36 @@
+REQUEST TEMPLATE — SQL Server
+
+ORIGINAL SQL:
+[Paste full SQL statement here — include literal or representative parameter values]
+
+WORKLOAD
+- Type: [ad-hoc / OLTP / reporting / batch]
+- Frequency / Concurrency: [e.g., 1 qps, 200 concurrent users]
+- SLA / Target latency: [e.g., reduce 12s -> <1s]
+
+ENVIRONMENT & CONSTRAINTS
+- DBMS & version: SQL Server [e.g., 2019]
+- Environment: [on-prem / Azure SQL Managed Instance]
+- Constraints: [e.g., no schema changes in prod, indexes must be ONLINE]
+
+ATTACH (required):
+- Table DDL (CREATE TABLE or column list with types and constraints)
+- Current indexes (names, key columns, included columns, filters)
+- Execution plan (Actual Execution Plan XML and STATISTICS IO/TIME output)
+- Table row counts and sizes
+- Representative parameter values
+
+REQUIRED RESPONDER OUTPUT (must follow):
+1) Executive summary (1-2 lines)
+2) Problem areas (1-3 bullets)
+3) Proposed changes (numbered): index DDL (T-SQL), rewritten SQL, join/order guidance, stats/hints
+4) Risks & rollback (exact DROP/ALTER statements)
+5) Validation steps (exact BEFORE/AFTER commands)
+6) Deliverables checklist (index DDL, rewritten SQL, validation script, rollback)
+
+ADDITIONAL CONTEXT (optional):
+- Query frequency and concurrency during peak times
+- Maintenance window for production
+- Sample parameter values for worst-case runs
+
+Please attach the requested artifacts when creating the ticket.

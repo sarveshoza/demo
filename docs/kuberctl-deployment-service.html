@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting Minikube Service Access and Common kubectl Commands</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; background: #f9f9f9; }
+        h1, h2 { color: #2c3e50; }
+        pre, code { background: #eef; padding: 0.2em 0.4em; border-radius: 4px; }
+        section { margin-bottom: 2em; }
+        ul { margin-top: 0; }
+        .example { background: #fff; border-left: 4px solid #3498db; padding: 1em; margin: 1em 0; }
+    </style>
+</head>
+<body>
+    <h1>Troubleshooting Minikube Service Access and Common kubectl Commands</h1>
+
+    <section>
+        <h2>1. Applying Kubernetes Resources</h2>
+        <p>To apply a resource, you must specify the file:</p>
+        <pre>kubectl apply -f &lt;filename&gt;</pre>
+        <div class="example">
+            Example:<br>
+            <code>kubectl apply -f spring-hello-service.yaml</code>
+        </div>
+    </section>
+
+    <section>
+        <h2>2. Checking Services and Pods</h2>
+        <ul>
+            <li>List all services: <code>kubectl get svc</code></li>
+            <li>List all pods: <code>kubectl get pods</code></li>
+            <li>List both services and pods: <code>kubectl get svc,pods</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>3. Deleting Resources</h2>
+        <ul>
+            <li>Delete a service: <code>kubectl delete service &lt;service-name&gt;</code></li>
+            <li>Delete a deployment: <code>kubectl delete deployment &lt;deployment-name&gt;</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>4. Exposing Services</h2>
+        <p>To expose a service outside the cluster, use <code>type: NodePort</code> or <code>type: LoadBalancer</code> in your service YAML.</p>
+        <div class="example">
+            Example NodePort service YAML:
+            <pre>{
+  apiVersion: "v1",
+  kind: "Service",
+  metadata: {
+    name: "springboot-k8s-svc"
+  },
+  spec: {
+    selector: {
+      app: "spring-boot-k8s"
+    },
+    ports: [
+      {
+        protocol: "TCP",
+        port: 8080,
+        targetPort: 8080
+      }
+    ],
+    type: "NodePort"
+  }
+}
+</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>5. Finding Service Access Information</h2>
+        <ol>
+            <li>After applying your service, check the assigned NodePort:<br>
+                <code>kubectl get svc</code>
+            </li>
+            <li>Get the Minikube IP:<br>
+                <code>minikube ip</code>
+            </li>
+            <li>Access your service:<br>
+                <code>curl http://&lt;minikube-ip&gt;:&lt;NodePort&gt;/hello?name=sarvesh</code>
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>6. Common Issues and Solutions</h2>
+        <h3>a. Cannot Access Minikube IP</h3>
+        <ul>
+            <li>Minikube with Docker driver on macOS isolates the VM from your host network.</li>
+            <li>ICMP (ping) is often blocked; use <code>curl</code> for HTTP checks.</li>
+            <li>Use <code>minikube service &lt;service-name&gt;</code> to open a tunnel and access your service locally.</li>
+        </ul>
+        <ul>
+            minikube service spring-hello-svc
+            <table>
+                |-----------|------------------|-------------|---------------------------|
+                | NAMESPACE |       NAME       | TARGET PORT |            URL            |
+                |-----------|------------------|-------------|---------------------------|
+                | default   | spring-hello-svc |        8080 | http://192.168.49.2:30154 |
+                |-----------|------------------|-------------|---------------------------|
+                🏃  Starting tunnel for service spring-hello-svc.
+                |-----------|------------------|-------------|------------------------|
+                | NAMESPACE |       NAME       | TARGET PORT |          URL           |
+                |-----------|------------------|-------------|------------------------|
+                | default   | spring-hello-svc |             | http://127.0.0.1:49660 |
+                |-----------|------------------|-------------|------------------------|
+            </table>
+
+            🎉  Opening service default/spring-hello-svc in default browser...
+            ❗  Because you are using a Docker driver on darwin, the terminal needs to be open to run it
+        </ul>
+        <h3>b. Firewall Issues</h3>
+        <ul>
+            <li>Check firewall status (macOS): <code>sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate</code></li>
+            <li>Ensure Docker and Minikube traffic is allowed if firewall is enabled.</li>
+        </ul>
+        <h3>c. Service Not Responding</h3>
+        <ul>
+            <li>Ensure your app listens on <code>0.0.0.0</code> (not just <code>localhost</code>).</li>
+            <li>Check pod and service status: <code>kubectl get pods</code>, <code>kubectl get svc</code></li>
+            <li>Check logs: <code>kubectl logs &lt;pod-name&gt;</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>7. Using <code>minikube service</code></h2>
+        <ul>
+            <li>Recommended for Docker driver on macOS: <code>minikube service &lt;service-name&gt;</code></li>
+            <li>Starts a tunnel and opens the service in your browser.</li>
+            <li>Provides a localhost URL for access.</li>
+            <li>Keep the terminal open while the tunnel is running.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>8. Working with Deployments</h2>
+        <ul>
+            <li>Apply a deployment YAML file: <code>kubectl apply -f &lt;deployment-file&gt;.yaml</code></li>
+            <li>List all deployments: <code>kubectl get deployments</code></li>
+            <li>Delete a deployment: <code>kubectl delete deployment &lt;deployment-name&gt;</code></li>
+            <li>Check deployment status: <code>kubectl rollout status deployment/&lt;deployment-name&gt;</code></li>
+            <li>View deployment details: <code>kubectl describe deployment &lt;deployment-name&gt;</code></li>
+        </ul>
+    </section>
+
+    <hr>
+    <p><strong>Summary:</strong> When using Minikube with the Docker driver on macOS, direct access to the Minikube IP may not work due to network isolation. Always use <code>minikube service &lt;service-name&gt;</code> to access your services. Ensure your YAMLs are correct and your app listens on all interfaces.</p>
+</body>
+</html>
+

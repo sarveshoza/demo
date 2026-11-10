@@ -1,0 +1,41 @@
+#message: Message from properties yaml file application.yml
+message: ${MESSAGE:default message}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${PROMETHEUS_INCLUDE:*}
+  endpoint:
+    health:
+      show-details: ${PROMETHEUS_SHOW_DETAILS:always}
+
+user:
+  url: https://api.github.com/users/sarveshoza
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_OAUTH_CLIENT_ID:}
+            client-secret: ${GOOGLE_OAUTH_CLIENT_SECRET:}
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+            user-name-attribute: sub
+  datasource:
+    url: "${DB_URL:jdbc:postgresql://ep-lucky-lab-begnhfu0-pooler.c-9.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require}"
+    username: ${DB_USERNAME:neondb_owner}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
